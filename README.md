@@ -1,8 +1,8 @@
 # Identicon
 
-**TODO: Add description**
+Sample Elixir package that generates a Github styled Identicon.
 
-## Installation
+## Installation (package not hosted)
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 by adding `identicon` to your list of dependencies in `mix.exs`:
