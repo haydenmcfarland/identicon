@@ -1,5 +1,5 @@
 defmodule Identicon do
-  def main(input) do
+  def main(input, options \\ []) do
     input
     |> hash_input
     |> pick_color
@@ -7,11 +7,14 @@ defmodule Identicon do
     |> filter_odd_squares
     |> build_pixel_map
     |> draw_image
-    |> save_image(input)
+    |> save_image(input, options)
   end
 
-  def save_image(image, input) do
-    File.write("#{input}.png", image)
+  def save_image(image, input, options) do
+    output_dir = Keyword.get(options, :output, ".")
+    filename = Keyword.get(options, :filename, input)
+
+    File.write("#{output_dir}/#{filename}.png", image)
   end
 
   def draw_image(%Identicon.Image{color: color, pixel_map: pixel_map}) do
@@ -40,7 +43,6 @@ defmodule Identicon do
   end
 
   def filter_odd_squares(%Identicon.Image{grid: grid} = image) do
-    # Enum.filter(grid, fn(square) -> end)
     grid =
       Enum.filter(grid, fn {code, _index} ->
         rem(code, 2) == 0
@@ -74,8 +76,6 @@ defmodule Identicon do
       :crypto.hash(:md5, input)
       |> :binary.bin_to_list()
 
-    # by convention; use a struct if you know the properties we are going
-    # to be working with
     %Identicon.Image{hex: hex}
   end
 end
