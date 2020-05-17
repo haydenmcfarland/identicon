@@ -1,6 +1,6 @@
 # Identicon
 
-Sample Elixir package that generates a Github styled Identicon.
+Sample Elixir escript that generates a Github styled Identicon.
 
 # How to use
 
