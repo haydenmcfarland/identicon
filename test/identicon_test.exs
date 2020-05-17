@@ -15,7 +15,6 @@ defmodule IdenticonTest do
       "--file-name"
     ]
 
-    result = Identicon.main(input)
-    assert result == :ok
+    assert Identicon.main(input) == :ok
   end
 end
