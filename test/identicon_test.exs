@@ -12,7 +12,8 @@ defmodule IdenticonTest do
       string_input,
       "--output-dir",
       @tmp_dir,
-      "--file-name"
+      "--file-name",
+      "test"
     ]
 
     assert Identicon.main(input) == :ok
