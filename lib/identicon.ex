@@ -1,5 +1,8 @@
 defmodule Identicon do
-  def main(input, options \\ []) do
+  def main(args) do
+    [input | kwargs] = args
+    options = parse_kwargs(kwargs)
+
     input
     |> hash_input
     |> pick_color
@@ -10,11 +13,20 @@ defmodule Identicon do
     |> save_image(input, options)
   end
 
-  def save_image(image, input, options) do
-    output_dir = Keyword.get(options, :output, ".")
-    filename = Keyword.get(options, :filename, input)
+  defp parse_kwargs(kwargs) do
+    {options, _, _} = OptionParser.parse(kwargs, switches: [name: :string])
+    options
+  end
 
-    File.write("#{output_dir}/#{filename}.png", image)
+  def save_image(image, input, options) do
+    output_dir = Keyword.get(options, :output_dir, ".")
+    file_name = Keyword.get(options, :file_name, input)
+    file_path = "#{output_dir}/#{file_name}.png"
+
+    case File.write(file_path, image) do
+      :ok -> IO.puts("identicon saved to: #{file_path}")
+      {:error, reason} -> IO.puts("identicon was not saved due to: #{reason}")
+    end
   end
 
   def draw_image(%Identicon.Image{color: color, pixel_map: pixel_map}) do
